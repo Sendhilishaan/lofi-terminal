@@ -1,7 +1,6 @@
-from pick import pick
 from stream_manager import play_stream
-from rich.tree import Tree
-from menu import create_tree
+from menu import create_tree, tree_dict
+from rich import print
 
 """
 yt-dl: convert into and fetch url
@@ -15,28 +14,19 @@ KEY_ESCAPE = 27
 QUIT_KEYS = (KEY_CTRL_C, KEY_ESCAPE, ord("q"))
 
 streams = {
-    "lofi_girl": "https://www.youtube.com/watch?v=jfKfPfyJRdk&ab_channel=LofiGirl",
-    "jazz_cafe": "https://www.youtube.com/watch?v=fTb6yJ7AlT8&ab_channel=JazzCafeAmbience"
-}
-
-tree_dict = {
-    "lofi": ["lofi_girl", "test123"],
-    "jazz": ["jazz cafe"],
-    "end": ''
+    1: "https://www.youtube.com/watch?v=jfKfPfyJRdk&ab_channel=LofiGirl", #lofi girl
+    3: "https://www.youtube.com/watch?v=fTb6yJ7AlT8&ab_channel=JazzCafeAmbience" #jazz cafe
 }
 
 def main():
-    title = "what music woiuld you like to listen to?"
-    options = create_tree(tree_dict)
-    option = pick(
-    options, title, indicator="=>", default_index=0, quit_keys=QUIT_KEYS # See if can use io for printed styles, might bug bc printing mul;tple tree to console
-    )
-    # returns tuple (selected, index)
-    return option[0]
-
+    print("what would you like to listen to?")
+    for genres in create_tree(tree_dict):
+        print(genres)
+    ans = int(input())
+    try:
+        play_stream(streams[ans])
+    except:
+        print("choose a proper ans cuh")
+        
 if __name__ == "__main__":
-    stream = main()
-    if stream == "quit":
-        print("bye")
-    else:
-        play_stream(streams[stream])
+    main()

@@ -1,15 +1,16 @@
 from rich.tree import Tree
-from rich import print
+from rich.progress import track
+import time
 
 # Tree storing genres: [stream names]
 tree_dict = {
-    "lofi": ["lofi_girl", "test123"],
-    "jazz": ["jazz cafe"],
-    "end": ''
+    "lofi": ["1 - lofi_girl", "2 - test123"],
+    "jazz": ["3 - jazz cafe"],
+    "    4 - end": ''
 }
 
 # creating the tree menu
-def create_tree(songs: dict) -> list[Tree]: # I think making it all under one tree is easiuer for pick
+def create_tree(songs: dict) -> list[Tree]:
     headers = songs.keys()
     menu = []
     for song in headers:
@@ -21,7 +22,6 @@ def create_tree(songs: dict) -> list[Tree]: # I think making it all under one tr
 
     return menu
 
-a = create_tree(tree_dict)
-for i in a:
-    print(i)
-
+def loading():
+    for i in track(range(5), description="[cyan]Processing..."):
+        time.sleep(1)
