@@ -15,6 +15,7 @@ QUIT_KEYS = (KEY_CTRL_C, KEY_ESCAPE, ord("q"))
 
 streams = {
     1: "https://www.youtube.com/watch?v=jfKfPfyJRdk&ab_channel=LofiGirl", #lofi girl
+    2: "https://www.youtube.com/watch?v=ix7eAk1mfvk&ab_channel=SmoothJazzBGM", #rain lofi
     3: "https://www.youtube.com/watch?v=fTb6yJ7AlT8&ab_channel=JazzCafeAmbience" #jazz cafe
 }
 
@@ -26,7 +27,7 @@ def main():
     try:
         play_stream(streams[ans])
     except:
-        print("choose a proper ans cuh")
+        print("Selection Error")
         
 if __name__ == "__main__":
     main()

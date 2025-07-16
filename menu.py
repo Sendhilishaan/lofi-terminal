@@ -4,7 +4,7 @@ import time
 
 # Tree storing genres: [stream names]
 tree_dict = {
-    "lofi": ["1 - lofi_girl", "2 - test123"],
+    "lofi": ["1 - lofi_girl", "2 - lofi_rain"],
     "jazz": ["3 - jazz cafe"],
     "    4 - end": ''
 }

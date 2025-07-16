@@ -11,4 +11,5 @@ def play_stream(selected_stream: str):
         info = ydl.extract_info(selected_stream, download=False)
         url = info["url"]
         
-        loading(), subprocess.run([mpv_exe,'--no-video',url]) #stdout=subprocess.DEVNULL to hide mpv
+        loading()
+        subprocess.run([mpv_exe,'--no-video', url]) #stdout=subprocess.DEVNULL to hide mpv
