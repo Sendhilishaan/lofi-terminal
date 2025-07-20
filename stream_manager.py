@@ -1,8 +1,8 @@
 import yt_dlp
-import subprocess
 from menu import loading
+#import time
+import vlc
 
-mpv_exe = r"D:\mpv-x86_64-20250713-git-bd21180\mpv.exe"
 ydl_opts = {'quiet': True, 'no warnings': True}
 
 def play_stream(selected_stream: str):
@@ -10,6 +10,14 @@ def play_stream(selected_stream: str):
         
         info = ydl.extract_info(selected_stream, download=False)
         url = info["url"]
-        
-        loading()
-        subprocess.run([mpv_exe,'--no-video', url]) #stdout=subprocess.DEVNULL to hide mpv
+    
+    #creating our player object with these settings
+    instance_args = [] #'--no-video', '--quiet'
+    instance = vlc.Instance(instance_args)
+    player = instance.media_player_new(url)
+    player.play()
+    
+    return player
+    
+    #loading()
+

@@ -1,5 +1,5 @@
-from stream_manager import play_stream
-from menu import create_tree, tree_dict
+from stream_manager import*
+from menu import options, tree_dict, create_tree
 from rich import print
 
 """
@@ -18,16 +18,16 @@ streams = {
     2: "https://www.youtube.com/watch?v=ix7eAk1mfvk&ab_channel=SmoothJazzBGM", #rain lofi
     3: "https://www.youtube.com/watch?v=fTb6yJ7AlT8&ab_channel=JazzCafeAmbience" #jazz cafe
 }
-
-def main():
+       
+if __name__ == "__main__":
     print("what would you like to listen to?")
     for genres in create_tree(tree_dict):
         print(genres)
     ans = int(input())
     try:
-        play_stream(streams[ans])
+        player_obj = play_stream(streams[ans])
     except:
         print("Selection Error")
-        
-if __name__ == "__main__":
-    main()
+    
+    options(player_obj)
+    
