@@ -1,0 +1,25 @@
+#main-container {
+    height: 1fr;
+    width: 1fr;
+}
+
+#playlist-tree {
+    width: 1fr;
+    height: 1fr;
+    border: solid gray;
+}
+
+#right-column {
+    width: 2fr;
+    height: 1fr;
+    border: solid gray;
+}
+
+#loading {
+    height: 1fr;
+    border-bottom: solid gray;
+}
+
+#settings {
+    height: 1fr;
+}

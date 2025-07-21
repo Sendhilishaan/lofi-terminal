@@ -3,29 +3,55 @@ from rich import print
 from rich.progress import track
 from pick import pick
 import time
+from textual.widgets import Tree
+from textual.app import App, ComposeResult
+from textual.widget import Widget
+from stream_manager import play_stream
 
-# Tree storing genres: [stream names]
-tree_dict = {
-    "lofi": ["1. lofi_girl", "2. lofi_rain"],
-    "jazz": ["3. jazz cafe"]
+streams = {
+    '1. lofi_girl': "https://www.youtube.com/watch?v=jfKfPfyJRdk&ab_channel=LofiGirl", #lofi girl
+    "2. lofi_rain": "https://www.youtube.com/watch?v=ix7eAk1mfvk&ab_channel=SmoothJazzBGM", #rain lofi
+    "3. jazz cafe": "https://www.youtube.com/watch?v=fTb6yJ7AlT8&ab_channel=JazzCafeAmbience" #jazz cafe
 }
 
-# creating the tree menu
-def create_tree(tree_dict: dict) -> list[Tree]:
-    headers = tree_dict.keys()
-    menu = []
-    for song in headers:
-        tree = Tree(song)
-        for stream in tree_dict[song]:
-            tree.add(stream)
+class PlaylistTree(Widget):
+    """
+    the class that displays our playslists as a tree
+    * maybe see if we use RadioSet as our display for our streams, more dynamic?
+    """
+    def __init__(self):
+        super().__init__()
+        self.tree_dict = {
+            "lofi": ["1. lofi_girl", "2. lofi_rain"],
+            "jazz": ["3. jazz cafe"]
+        }
+    def compose(self) -> ComposeResult:
+        """
+        creating the playlist tree, allows easy addition of new streams
+        to the app by changing tree_dict. key: genre, values: options
+        """
+        main_tree: Tree[str] = Tree("Music")
+        main_tree.root.expand()
         
-        menu.append(tree)
+        for genre, streams in self.tree_dict.items():
+            genre_branch = main_tree.root.add(genre)
+            genre_branch.expand()
 
-    return menu
+            for stream in streams:
+                genre_branch.add_leaf(stream)
 
-def loading():
-    for i in track(range(5), description="[cyan]Loading..."):
-        time.sleep(1)
+        yield main_tree
+
+    def on_tree_node_selected(self, event: Tree.NodeSelected[str]):
+        """
+        overriding the node selected method, and calling the specific stream to be played
+        using play_stream
+        """
+        if not event.node.children:
+            stream_name = str(event.node.label)
+            play_stream(streams[stream_name])
+
+
 
 def options(player_obj):
     """
@@ -62,3 +88,7 @@ def volume(player_obj):
     player_obj.audio_set_volume(index * 10)
 
     time.sleep(5)
+
+if __name__ == "__main__":
+    app = PlaylistTree()
+    app.run()

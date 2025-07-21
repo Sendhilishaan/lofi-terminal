@@ -1,33 +1,72 @@
 from stream_manager import*
-from menu import options, tree_dict, create_tree
+from menu import options, PlaylistTree
 from rich import print
+from textual.app import App, ComposeResult
+from textual.widgets import Footer, Header
+from textual.containers import Horizontal, Vertical, Center, Middle
+from textual.widget import Widget
 
+# container for the playlist display
+class LeftCont(Widget):
+    DEFAULT_CSS = """
+    LeftCont {
+    width: 1fr;
+    height: 1fr;
+    }
 """
-yt-dl: convert into and fetch url
-mpv.io: play the stream live
-rich: terminal ui
-    - progress bar
 
+# container for animations
+class TopRight(Widget):
+    DEFAULT_CSS = """
+    TopRight {
+    width: 1fr;
+    height: 1fr;
+    }
 """
-KEY_CTRL_C = 3
-KEY_ESCAPE = 27
-QUIT_KEYS = (KEY_CTRL_C, KEY_ESCAPE, ord("q"))
 
-streams = {
-    1: "https://www.youtube.com/watch?v=jfKfPfyJRdk&ab_channel=LofiGirl", #lofi girl
-    2: "https://www.youtube.com/watch?v=ix7eAk1mfvk&ab_channel=SmoothJazzBGM", #rain lofi
-    3: "https://www.youtube.com/watch?v=fTb6yJ7AlT8&ab_channel=JazzCafeAmbience" #jazz cafe
-}
-       
-if __name__ == "__main__":
-    print("what would you like to listen to?")
-    for genres in create_tree(tree_dict):
-        print(genres)
-    ans = int(input())
-    try:
-        player_obj = play_stream(streams[ans])
-    except:
-        print("Selection Error")
+# container for settings
+class TopLeft(Widget):
+    DEFAULT_CSS = """
+    TopLeft {
+    width: 1fr;
+    height: 1fr;
+    }
+"""
+
+# container for the settings and the animation tab
+class RightCont(Widget):
+    DEFAULT_CSS = """
+    RightCont {
+    width: 1fr;
+    height: 1fr;
+    }
+"""
+
+class lofiterminal(App):
+    """
+    our main class for the app
+    """
+    #keybinds, (key, command, description)
+    BINDINGS = [('d', 'toggle_dark', 'toggle dark mode')]
+
+    def compose(self) -> ComposeResult:
+        #create child widgets for app
+        with Horizontal():
+            with LeftCont():
+                yield PlaylistTree()
+            with RightCont():
+                yield TopLeft()
+                yield TopRight()
+        yield Footer()
+        yield Header()
     
-    options(player_obj)
+    def action_toggle_dark(self) -> None:
+        """overriding the toggle dark class"""
+        self.theme = (
+                "textual-dark" if self.theme == "textual-light" else "textual-light"
+            )
+
+if __name__ == "__main__":
+    app = lofiterminal()
+    app.run()
     
