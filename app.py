@@ -1,10 +1,11 @@
 from stream_manager import*
-from menu import options, PlaylistTree
+from menu import PlaylistTree, VolumeButton
 from rich import print
 from textual.app import App, ComposeResult
 from textual.widgets import Footer, Header
 from textual.containers import Horizontal, Vertical, Center, Middle
 from textual.widget import Widget
+from textual_slider import Slider
 
 # container for the playlist display
 class LeftCont(Widget):
@@ -12,17 +13,20 @@ class LeftCont(Widget):
     LeftCont {
     width: 1fr;
     height: 1fr;
+    align: center middle;
     }
-"""
-
+    """
 # container for animations
 class TopRight(Widget):
     DEFAULT_CSS = """
     TopRight {
     width: 1fr;
     height: 1fr;
+    align: center middle;
     }
 """
+    def compose(self):
+        yield VolumeButton()
 
 # container for settings
 class TopLeft(Widget):
@@ -31,7 +35,7 @@ class TopLeft(Widget):
     width: 1fr;
     height: 1fr;
     }
-"""
+    """
 
 # container for the settings and the animation tab
 class RightCont(Widget):
@@ -59,7 +63,8 @@ class lofiterminal(App):
                 yield TopRight()
         yield Footer()
         yield Header()
-    
+
+
     def action_toggle_dark(self) -> None:
         """overriding the toggle dark class"""
         self.theme = (
