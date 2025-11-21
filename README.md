@@ -6,4 +6,4 @@ Never have to worry about leaving your terminal and switching to your browser! T
 
 ### Current state of the TUI:
 (WIP)
-![WIP](<images/Screenshot 2025-11-05 at 1.21.03 PM.png>)
+![Imagine a very nice interface here that is very complete](<images/Screenshot 2025-11-05 at 1.21.03 PM.png>)
